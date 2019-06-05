@@ -16,57 +16,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity  extends AppCompatActivity {
-    final int RECEIVE_SMS = 22;
-    final int READ_SMS = 6;
+
     final int MY_PERMISSIONS_REQUEST_RECEIVE_SMS = 1;
     static final int SEND_SMS_PERMISSION_REQUEST_CODE = 1;
     Base base;
-    private  ReceptorSMS smsBroadcastReceiver;
-    EditText t;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setRecivers();
-        RECEIVESMSPermission();
-        ReadSMSPermission();
-        permisos_enviar();
-        solicitarPermisos();
+        base=new Base(this, "Base1", null, 1);
         insertar_datos();
-    }
+        solicitarPermisos();
 
-    private void setRecivers() {
-        registerReceiver(smsBroadcastReceiver, new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION));
 
-    }
+    }//onCreate
 
-    public void RECEIVESMSPermission(){
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.CALL_PHONE)) {
 
-            new AlertDialog.Builder(this)
-                    .setTitle("Permission needed")
-                    .setMessage("This permission is needed to receive SMSes")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[]{Manifest.permission.RECEIVE_SMS}, RECEIVE_SMS);
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create().show();
-
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECEIVE_SMS}, RECEIVE_SMS);
-
-        }
-    }
 
     public void permisos_enviar(){
         ActivityCompat.requestPermissions(MainActivity.this,
@@ -85,36 +49,6 @@ public class MainActivity  extends AppCompatActivity {
         int check = ContextCompat.checkSelfPermission(this, permission);
         return (check == PackageManager.PERMISSION_GRANTED);
     }
-
-    public void ReadSMSPermission(){
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.CALL_PHONE)) {
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Permission needed")
-                    .setMessage("This permission is needed to read SMSes")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[]{Manifest.permission.READ_SMS}, READ_SMS);
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create().show();
-
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_SMS}, READ_SMS);
-
-        }
-    }
-
     private void solicitarPermisos() {
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
                 != PackageManager.PERMISSION_GRANTED){
@@ -144,19 +78,18 @@ public class MainActivity  extends AppCompatActivity {
 
     void insertar_datos(){
         SQLiteDatabase db = this.base.getWritableDatabase();
-        db.execSQL("INSERT INTO Oroscopo VALUES('aries','Crees que no quieres algo que tienes.')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('tauro','Por más que te mires todos los días en el espejo, no verás los cambios que se están produciendo.')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('geminis','La violencia y la agresión siempre son signos de temor.')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('cancer','Todos estamos experimentando continuos cambios de un modo u otro. P')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('leo','Parece irónico que, a pesar de esto, la madurez se otorgue sólo por el paso de los años. ')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('virgo','Hay gente que necesita que le digan lo que deben hacer.')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('libra','A veces elegir el camino más corto hará que el viaje sea más agradable.')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('escorpio','Vivimos en un mundo en el que todos hablan pero nadie parece escuchar. ')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('sagitario','Dicen que la curiosidad mató al gato.')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('capricornio','odos somos capaces de pasar de ser lindos gatitos a rugir como leones sólo en cuestión de segundos.')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('acuario','Cada vez que nuestros líderes hablan, sus palabras son grabadas y quedan para la eternidad. ')");
-        db.execSQL("INSERT INTO Oroscopo VALUES('picis','El problema del consejo ‘no vivas por encima de tus posibilidades’ es que surge cuando la gente sobrepasa sus propios límites.')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('aries','Crees que no quieres algo que tienes.')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('tauro','Por más que te mires todos los días en el espejo, no verás los cambios que se están produciendo.')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('geminis','La violencia y la agresión siempre son signos de temor.')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('cancer','Todos estamos experimentando continuos cambios de un modo u otro. P')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('leo','Parece irónico que, a pesar de esto, la madurez se otorgue sólo por el paso de los años. ')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('virgo','Hay gente que necesita que le digan lo que deben hacer.')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('libra','A veces elegir el camino más corto hará que el viaje sea más agradable.')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('escorpio','Vivimos en un mundo en el que todos hablan pero nadie parece escuchar. ')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('sagitario','Dicen que la curiosidad mató al gato.')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('capricornio','odos somos capaces de pasar de ser lindos gatitos a rugir como leones sólo en cuestión de segundos.')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('acuario','Cada vez que nuestros líderes hablan, sus palabras son grabadas y quedan para la eternidad. ')");
+        db.execSQL("INSERT INTO Horoscopo VALUES('picis','El problema del consejo ‘no vivas por encima de tus posibilidades’ es que surge cuando la gente sobrepasa sus propios límites.')");
 
     }
-
 }
